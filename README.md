@@ -20,7 +20,6 @@ your programs against.
  1 | Python
 --- | ---
  Package | Dependencies
---- | ---
 readline6-dev | dpkg, readline6, tinfo-dev
 dpkg | bz2-1.0, lzma5, selinux1, tar, zlibg1g
 readline6 | readline-common, tinfo5
@@ -36,7 +35,6 @@ zlibg1g | -
  2 | Python
 --- | ---
  Package | Dependencies
---- | ---
 ssl-dev | ssl1.0.0, zlib1g-dev
 ssl1.0.0 | debconf, zlib1g
 zlib1g-dev | zlib1g
@@ -46,7 +44,6 @@ perl-base | dpkg
  3 | SELinux
 --- | ---
  Package | Dependencies
---- | ---
 pcre3-dev | pcre3, pcrecpp0
 pcre3 | -
 pcrecpp0 | pcre3, stdc++6
@@ -55,28 +52,24 @@ stdc++6 | -
  4 | SELinux
 --- | ---
  Package | Dependencies
---- | ---
 ustr-dev | ustr-1.0-1
 ustr-1.0-1 | -
 
  5 | SELinux
 --- | ---
  Package | Dependencies
---- | ---
 audit-dev | audit0
 audit0 | -
 
  6 | SELinux
 --- | ---
  Package | Dependencies
---- | ---
 bz2-dev | bz2-1.0
 bz2-1.0 | *
 
  7 | SELinux
 --- | ---
  Package | Dependencies
---- | ---
 flex | debconf, dpkg, m4
 debconf | *
 dpkg | *
@@ -85,7 +78,6 @@ m4 | -
  8 | SELinux
 --- | ---
  Package | Dependencies
---- | ---
 apol-dev | apol4, qpol-dev
 apol4 | qpol1
 qpol-dev | qpol1
@@ -97,7 +89,6 @@ sepol1 | -
  9 | SELinux
 --- | ---
  Package | Dependencies
---- | ---
 pam0g-dev | pam0g
 pam0g | debconf
 debconf | *
@@ -105,9 +96,27 @@ debconf | *
  10 | SELinux
 --- | ---
  Package | Dependencies
---- | ---
 cap-ng-dev | cap-ng0
 cap-ng0 | -
+
+ 11 | SELinux
+--- | ---
+ Package | Dependencies
+dbus-glib-1-dev | dbus-1-3, dbus-1-dev, dbus-glib-1-2, expat1, glib2.0-0, glib2.0-dev
+dbus-1-3 | -
+dbus-1-dev | pkg-config, dbus-1-3
+dbus-glib-1-2 | dbus-1-3, glib2.0-0
+expat1 | -
+glib2.0-0 | ffi5, pcre3, selinux1, zlib1g
+glib2.0-dev | glib2.0-0, glib2.0-bin, pcre3-dev, pkg-config, zlib1g-dev
+pkg-config | popt0, glib2.0-0
+ffi5 | -
+pcre3 | *
+selinux1 | *
+zlib1g | *
+glib2.0-bin | glib2.0-0, dpkg, elf1, glib2.0-data
+pcre3-dev | *
+zlib1g-dev | *
 
 
 *: Have added before.
