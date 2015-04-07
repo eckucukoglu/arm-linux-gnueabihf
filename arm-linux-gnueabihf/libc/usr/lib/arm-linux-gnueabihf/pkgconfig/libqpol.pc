@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=/usr
+libdir=${prefix}/lib/arm-linux-gnueabihf
+includedir=${prefix}/include
+
+Name: libqpol
+Description: SETools policy internals library
+Version: 1.6
+Requires:
+Conflicts:
+Libs: -L${libdir} -lqpol
+Cflags: -I${includedir}/qpol

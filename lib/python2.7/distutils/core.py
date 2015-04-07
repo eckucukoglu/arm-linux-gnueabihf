@@ -90,7 +90,6 @@ def setup(**attrs):
     command-specific options that became attributes of each command
     object.
     """
-
     global _setup_stop_after, _setup_distribution
 
     # Determine the distribution class -- either caller-supplied or

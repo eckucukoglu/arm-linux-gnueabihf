@@ -21,28 +21,28 @@
 
 # === Variables set by makesetup ===
 
-MODOBJS=          Modules/threadmodule.o  Modules/signalmodule.o  Modules/posixmodule.o  Modules/errnomodule.o  Modules/pwdmodule.o  Modules/_sre.o  Modules/_codecsmodule.o  Modules/_weakref.o  Modules/zipimport.o  Modules/symtablemodule.o  Modules/xxsubtype.o
+MODOBJS=          Modules/threadmodule.o  Modules/signalmodule.o  Modules/posixmodule.o  Modules/errnomodule.o  Modules/pwdmodule.o  Modules/_sre.o  Modules/_codecsmodule.o  Modules/_weakref.o  Modules/zipimport.o  Modules/symtablemodule.o  Modules/readline.o  Modules/_ssl.o  Modules/zlibmodule.o  Modules/xxsubtype.o
 MODLIBS=        $(LOCALMODLIBS) $(BASEMODLIBS)
 
 # === Variables set by configure
 VERSION=	2.7
 srcdir=		.
 
-abs_srcdir=	/home/eckucukoglu/1511/Python-2.7.5
-abs_builddir=	/home/eckucukoglu/1511/Python-2.7.5
-build=		i686-pc-linux-gnu
-host=		i686-pc-linux-gnu
+abs_srcdir=	/home/ecank/1511/tools/Python-2.7.5
+abs_builddir=	/home/ecank/1511/tools/Python-2.7.5
+build=		x86-unknown-linux-gnu
+host=		arm-unknown-linux-gnueabihf
 
-CC=		gcc -pthread
-CXX=		g++ -pthread
+CC=		arm-linux-gnueabihf-gcc
+CXX=		arm-linux-gnueabihf-g++
 MAINCC=		$(CC)
 LINKCC=		$(PURIFY) $(MAINCC)
-AR=		ar
-RANLIB=		ranlib
+AR=		arm-linux-gnueabihf-ar
+RANLIB=		arm-linux-gnueabihf-ranlib
 SVNVERSION=	echo Unversioned directory
-HGVERSION=	
-HGTAG=		
-HGBRANCH=	
+HGVERSION=	hg id -i $(srcdir)
+HGTAG=		hg id -t $(srcdir)
+HGBRANCH=	hg id -b $(srcdir)
 
 GNULD=          yes
 
@@ -62,7 +62,7 @@ INSTALL_DATA=	${INSTALL} -m 644
 # Also, making them read-only seems to be a good idea...
 INSTALL_SHARED= ${INSTALL} -m 555
 
-MKDIR_P=	/bin/mkdir -p
+MKDIR_P=	/usr/bin/mkdir -p
 
 MAKESETUP=      $(srcdir)/Modules/makesetup
 
@@ -90,10 +90,10 @@ PY_CFLAGS=	$(CFLAGS) $(CPPFLAGS) $(CFLAGSFORSHARED) -DPy_BUILD_CORE
 MACHDEP=	linux2
 
 # Multiarch directory (may be empty)
-MULTIARCH=	i386-linux-gnu
+MULTIARCH=	arm-linux-gnueabihf
 
 # Install prefix for architecture-independent files
-prefix=		/usr/local
+prefix=		/python
 
 # Install prefix for architecture-dependent files
 exec_prefix=	${prefix}
@@ -152,7 +152,7 @@ EXEMODE=	755
 FILEMODE=	644
 
 # configure script arguments
-CONFIG_ARGS=	
+CONFIG_ARGS=	 '--host=arm-linux-gnueabihf' '--build=x86-linux' '--prefix=/python' '--disable-ipv6' 'ac_cv_file__dev_ptc=no' 'ac_cv_file__dev_ptmx=no' 'build_alias=x86-linux' 'host_alias=arm-linux-gnueabihf' 'CC=arm-linux-gnueabihf-gcc'
 
 
 # Subdirectories with code
@@ -176,7 +176,7 @@ LDLIBRARYDIR=
 INSTSONAME=	$(LDLIBRARY)
 
 
-LIBS=		-lpthread -ldl  -lutil
+LIBS=		-lpthread -ldl  -lpthread -lutil
 LIBM=		-lm
 LIBC=		
 SYSLIBS=	$(LIBM) $(LIBC)
@@ -193,9 +193,9 @@ UNICODE_OBJS=   Objects/unicodeobject.o Objects/unicodectype.o
 PYTHON=		python$(EXE)
 BUILDPYTHON=	python$(BUILDEXE)
 
-PYTHON_FOR_BUILD=./$(BUILDPYTHON) -E
-_PYTHON_HOST_PLATFORM=
-HOST_GNU_TYPE=  i686-pc-linux-gnu
+PYTHON_FOR_BUILD=python_for_build
+_PYTHON_HOST_PLATFORM=linux2-arm
+HOST_GNU_TYPE=  arm-unknown-linux-gnueabihf
 
 # The task to run while instrument when building the profile-opt target
 PROFILE_TASK=	$(srcdir)/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck
@@ -203,8 +203,9 @@ PROFILE_TASK=	$(srcdir)/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck
 
 # === Definitions added by makesetup ===
 
-LOCALMODLIBS=           
+LOCALMODLIBS=            -lreadline -ltermcap  -L$(SSL)/lib -lssl -lcrypto  -L$(exec_prefix)/lib -lz 
 BASEMODLIBS=
+SSL=/usr/local/ssl
 GLHACK=-Dclear=__GLclear
 PYTHONPATH=$(COREPYTHONPATH)
 COREPYTHONPATH=$(DESTPATH)$(SITEPATH)$(TESTPATH)$(MACHDEPPATH)$(EXTRAMACHDEPPATH)$(TKPATH)$(OLDPATH)
@@ -244,6 +245,7 @@ LIBFFI_INCLUDEDIR=
 ##########################################################################
 # Parser
 PGEN=		Parser/pgen$(EXE)
+PGEN_FOR_BUILD=Parser/pgen_for_build
 
 PSRCS=		\
 		Parser/acceler.c \
@@ -472,8 +474,9 @@ sharedmods: $(BUILDPYTHON) pybuilddir.txt
 	    *\ -s*|s*) quiet="-q";; \
 	    *) quiet="";; \
 	esac; \
-	$(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' \
-		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py $$quiet build
+	$(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)'    \
+		PYTHONXCPREFIX='$(DESTDIR)$(prefix)' $(PYTHON_FOR_BUILD)    \
+        $(srcdir)/setup.py $$quiet build
 
 # Build static library
 # avoid long command lines, same as LIBRARY_OBJS
@@ -610,7 +613,7 @@ Modules/pwdmodule.o: $(srcdir)/Modules/pwdmodule.c $(srcdir)/Modules/posixmodule
 $(GRAMMAR_H): $(GRAMMAR_INPUT) $(PGENSRCS)
 		@$(MKDIR_P) Include
 		$(MAKE) $(PGEN)
-		$(PGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
+		$(PGEN_FOR_BUILD) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
 $(GRAMMAR_C): $(GRAMMAR_H) $(GRAMMAR_INPUT) $(PGENSRCS)
 		$(MAKE) $(GRAMMAR_H)
 		touch $(GRAMMAR_C)
@@ -1017,12 +1020,12 @@ libinstall:	build_all $(srcdir)/Lib/$(PLATDIR) $(srcdir)/Modules/xxmodule.c
 		$(INSTALL_DATA) $(srcdir)/Modules/xxmodule.c \
 			$(DESTDIR)$(LIBDEST)/distutils/tests ; \
 	fi
-	PYTHONPATH=$(DESTDIR)$(LIBDEST)  $(RUNSHARED) \
+	-PYTHONPATH=$(DESTDIR)$(LIBDEST)  $(RUNSHARED) \
 		$(PYTHON_FOR_BUILD) -Wi -tt $(DESTDIR)$(LIBDEST)/compileall.py \
 		-d $(LIBDEST) -f \
 		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
 		$(DESTDIR)$(LIBDEST)
-	PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
 		$(PYTHON_FOR_BUILD) -Wi -tt -O $(DESTDIR)$(LIBDEST)/compileall.py \
 		-d $(LIBDEST) -f \
 		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
@@ -1150,11 +1153,13 @@ libainstall:	all python-config
 # Install the dynamically loadable modules
 # This goes into $(exec_prefix)
 sharedinstall: sharedmods
+	CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' \
 	$(RUNSHARED) $(PYTHON_FOR_BUILD) $(srcdir)/setup.py install \
+		--skip-build \
 	   	--prefix=$(prefix) \
-		--install-scripts=$(BINDIR) \
-		--install-platlib=$(DESTSHARED) \
-		--root=$(DESTDIR)/
+		--install-scripts=$(DESTDIR)$(BINDIR) \
+		--install-platlib=$(DESTDIR)$(DESTSHARED) \
+		--root=/
 	-rm $(DESTDIR)$(DESTSHARED)/_sysconfigdata.py*
 
 # Here are a couple of targets for MacOSX again, to install a full
@@ -1394,5 +1399,11 @@ Modules/zipimport.o: $(srcdir)/Modules/zipimport.c; $(CC) $(PY_CFLAGS)  -c $(src
 Modules/zipimport$(SO):  Modules/zipimport.o; $(BLDSHARED)  Modules/zipimport.o   -o Modules/zipimport$(SO)
 Modules/symtablemodule.o: $(srcdir)/Modules/symtablemodule.c; $(CC) $(PY_CFLAGS)  -c $(srcdir)/Modules/symtablemodule.c -o Modules/symtablemodule.o
 Modules/_symtablemodule$(SO):  Modules/symtablemodule.o; $(BLDSHARED)  Modules/symtablemodule.o   -o Modules/_symtablemodule$(SO)
+Modules/readline.o: $(srcdir)/Modules/readline.c; $(CC) $(PY_CFLAGS)  -c $(srcdir)/Modules/readline.c -o Modules/readline.o
+Modules/readline$(SO):  Modules/readline.o; $(BLDSHARED)  Modules/readline.o  -lreadline -ltermcap  -o Modules/readline$(SO)
+Modules/_ssl.o: $(srcdir)/Modules/_ssl.c; $(CC) $(PY_CFLAGS)  -DUSE_SSL -I$(SSL)/include -I$(SSL)/include/openssl -c $(srcdir)/Modules/_ssl.c -o Modules/_ssl.o
+Modules/_ssl$(SO):  Modules/_ssl.o; $(BLDSHARED)  Modules/_ssl.o  -L$(SSL)/lib -lssl -lcrypto  -o Modules/_ssl$(SO)
+Modules/zlibmodule.o: $(srcdir)/Modules/zlibmodule.c; $(CC) $(PY_CFLAGS)  -I$(prefix)/include -c $(srcdir)/Modules/zlibmodule.c -o Modules/zlibmodule.o
+Modules/zlibmodule$(SO):  Modules/zlibmodule.o; $(BLDSHARED)  Modules/zlibmodule.o  -L$(exec_prefix)/lib -lz  -o Modules/zlibmodule$(SO)
 Modules/xxsubtype.o: $(srcdir)/Modules/xxsubtype.c; $(CC) $(PY_CFLAGS)  -c $(srcdir)/Modules/xxsubtype.c -o Modules/xxsubtype.o
 Modules/xxsubtype$(SO):  Modules/xxsubtype.o; $(BLDSHARED)  Modules/xxsubtype.o   -o Modules/xxsubtype$(SO)

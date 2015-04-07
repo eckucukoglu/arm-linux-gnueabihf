@@ -1,6 +1,5 @@
 This toolchain is extended version of Linaro Toolchain 2014.09.
 Please see README.toolchain for further information.
-###############################################################
 
 # arm-linux-gnueabihf
 
@@ -68,3 +67,15 @@ flex | debconf, dpkg, m4
 debconf | *
 dpkg | *
 m4 | -
+
+ Package | Dependencies
+--- | ---
+apol-dev | apol4, qpol-dev
+apol4 | qpol1
+qpol-dev | qpol1
+qpol1 | bz2-1.0, selinux1, sepol1
+bz2-1.0 | *
+selinux1 | *
+sepol1 | -
+
+*: Have added before.

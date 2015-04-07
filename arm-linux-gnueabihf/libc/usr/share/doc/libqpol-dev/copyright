@@ -1,0 +1,49 @@
+This is the Debian package for setools, and it is built from sources
+obtained from: http://www.nsa.gov/selinux/code/download5.cfm.
+
+This package was debianized by Russell Coker <russell@coker.com.au> on
+Wed, 19 Nov 2003 20:44:14 +1100.
+
+This package is maintained by Manoj Srivastava <srivasta@debian.org>.
+
+The orig.tar.gz has been repacked to omit the debian directory, and
+the minial changes required to reflect that deletion in the autotools
+files.  There were many incompaible changes in Debian directory in the
+upstream package, and this was the minimally disruptive way to package
+setools for Debian.
+
+COPYING
+
+The intent is to allow free use of this source code under the GNU
+General Public License (see COPYING).  All source code is copyright
+protected and freely distributed under the GNU GPL (see COPYING).
+Absolutely no warranty is provided or implied (see COPYING).
+
+
+SELinux Tools (setools) by Tresys Technology, LLC
+(selinux@tresys.com, www.tresys.com/selinux)
+Copyright (C) 2001-2009 Tresys Technology, LLC
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; version 2 dated June, 1991.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+The Debian specific changes are © 2005-2009, Manoj Srivastava
+<srivasta@debian.org>, and distributed under the terms of the GNU
+General Public License, version 2.
+
+On Debian GNU/Linux systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL-2'.
+
+    A copy of the GNU General Public License is also available at
+    <URL:http://www.gnu.org/copyleft/gpl.html>.  You may also obtain
+    it by writing to the Free Software Foundation, Inc., 51 Franklin
+    St, Fifth Floor, Boston, MA 02110-1301 USA
+
+Manoj Srivastava <srivasta@debian.org>
+arch-tag: d4250e44-a0e0-4ee0-adb9-2bd74f6eeb27
