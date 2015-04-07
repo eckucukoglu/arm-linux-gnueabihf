@@ -39,3 +39,32 @@ ssl1.0.0 | debconf, zlib1g
 zlib1g-dev | zlib1g
 debconf | perl-base
 perl-base | dpkg
+
+ Package | Dependencies
+--- | ---
+pcre3-dev | pcre3, pcrecpp0
+pcre3 | -
+pcrecpp0 | pcre3, stdc++6
+stdc++6 | -
+
+ Package | Dependencies
+--- | ---
+ustr-dev | ustr-1.0-1
+ustr-1.0-1 | -
+
+ Package | Dependencies
+--- | ---
+audit-dev | audit0
+audit0 | -
+
+ Package | Dependencies
+--- | ---
+bz2-dev | bz2-1.0
+bz2-1.0 | *
+
+ Package | Dependencies
+--- | ---
+flex | debconf, dpkg, m4
+debconf | *
+dpkg | *
+m4 | -
