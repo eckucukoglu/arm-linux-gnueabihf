@@ -1,0 +1,11 @@
+prefix=/home/ecank/1511/toolchain/arm-linux-gnueabihf/arm-linux-gnueabihf/libc/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${exec_prefix}/include
+
+Name: libsepol
+Description: SELinux policy library
+Version: 2.4
+URL: http://userspace.selinuxproject.org/
+Libs: -L${libdir} -lsepol
+Cflags: -I${includedir}

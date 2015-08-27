@@ -1,0 +1,13 @@
+prefix=/home/ecank/selinux-new/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=/home/ecank/selinux-new/usr/include
+
+Name: libsemanage
+Description: SELinux management library
+Version: 2.4
+URL: http://userspace.selinuxproject.org/
+Requires.private: libselinux libsepol ustr
+Libs: -L${libdir} -lsemanage
+Libs.private: -lbz2
+Cflags: -I${includedir}

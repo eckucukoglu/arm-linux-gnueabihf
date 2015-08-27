@@ -1,0 +1,148 @@
+'\" t
+.\"     Title: SECILC
+.\"    Author: Richard Haines
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 04/07/2015
+.\"    Manual: SELinux CIL Compiler
+.\"    Source: secilc
+.\"  Language: English
+.\"
+.TH "SECILC" "8" "04/07/2015" "secilc" "SELinux CIL Compiler"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+secilc \- invoke the SELinux Common Intermediate Language (CIL) Compiler
+.SH "SYNOPSIS"
+.HP \w'\fBsecilc\fR\ 'u
+\fBsecilc\fR [\fIOPTION\fR...] \fIfile\fR
+.SH "DESCRIPTION"
+.PP
+\fIsecilc\fR
+invokes the CIL compiler with the specified
+\fIargument\fRs to build a kernel binary policy\&. A
+\fBfile_contexts\fR
+file will also be built as described in the
+\fBFILE FORMAT\fR
+section of
+\fBfile_contexts\fR(5)\&.
+.SH "OPTIONS"
+.PP
+\fB\-o, \-\-output=<file>\fR
+.RS 4
+Write binary policy to
+\fIfile\fR
+(default: policy\&.\fIversion\fR)
+.RE
+.PP
+\fB\-f, \-\-filecontext=<file>\fR
+.RS 4
+Write file contexts to
+\fIfile\fR
+(default:
+\fBfile_contexts\fR)
+.RE
+.PP
+\fB\-t, \-\-target=<type>\fR
+.RS 4
+Specify target architecture\&. May be
+\fBselinux\fR
+or
+\fBxen\fR
+(default:
+\fBselinux\fR)
+.RE
+.PP
+\fB\-M, \-\-mls true|false\fR
+.RS 4
+Build an mls policy\&. Must be
+\fBtrue\fR
+or
+\fBfalse\fR\&. This will override the
+\fB(mls \fR\fB\fIboolean\fR\fR\fB)\fR
+statement if present in the policy\&.
+.RE
+.PP
+\fB\-c, \-\-policyvers=<version>\fR
+.RS 4
+Build a binary policy with a given
+\fIversion\fR
+(default: depends on the systems SELinux policy
+\fIversion\fR, see
+\fBsestatus\fR(8))
+.RE
+.PP
+\fB\-U, \-\-handle\-unknown=<action>\fR
+.RS 4
+How to handle unknown classes or permissions\&. May be
+\fBdeny\fR,
+\fBallow\fR, or
+\fBreject\fR
+(default:
+\fBdeny\fR)\&. This will override the
+\fB(handleunknown \fR\fB\fIaction\fR\fR\fB)\fR
+statement if present in the policy\&.
+.RE
+.PP
+\fB\-D, \-\-disable\-dontaudit\fR
+.RS 4
+Do not add
+\fBdontaudit\fR
+rules to the binary policy\&.
+.RE
+.PP
+\fB\-P, \-\-preserve\-tunables\fR
+.RS 4
+Treat tunables as booleans\&.
+.RE
+.PP
+\fB\-N, \-\-disable\-neverallow\fR
+.RS 4
+Do not check
+\fBneverallow\fR
+rules\&.
+.RE
+.PP
+\fB\-v, \-\-verbose\fR
+.RS 4
+Increment verbosity level\&.
+.RE
+.PP
+\fB\-h, \-\-help\fR
+.RS 4
+Display usage information\&.
+.RE
+.SH "SEE ALSO"
+.PP
+\fBfile_contexts\fR(5), \fBsestatus\fR(8)
+.PP
+HTML documentation describing the CIL language statements is available starting with
+\fIdocs/html/index\&.html\fR\&.
+.PP
+PDF documentation describing the CIL language statements is available at:
+\fIdocs/pdf/CIL_Reference_Guide\&.pdf\fR\&.
+.PP
+There is a CIL Design Wiki at:
+\m[blue]\fB\%http://github.com/SELinuxProject/cil/wiki\fR\m[]
+that describes the goals and features of the CIL language\&.
+.SH "AUTHOR"
+.PP
+\fBRichard Haines\fR
+.RS 4
+.RE

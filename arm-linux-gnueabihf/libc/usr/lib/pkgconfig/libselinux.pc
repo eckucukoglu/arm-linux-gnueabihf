@@ -1,0 +1,12 @@
+prefix=~/libselinux-fpic/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=~/libselinux-fpic/usr/include
+
+Name: libselinux
+Description: SELinux utility library
+Version: 2.4
+URL: http://userspace.selinuxproject.org/
+Requires.private: libsepol libpcre
+Libs: -L${libdir} -lselinux
+Cflags: -I${includedir}
