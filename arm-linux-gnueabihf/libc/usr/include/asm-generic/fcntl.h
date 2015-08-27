@@ -120,6 +120,10 @@
 #define F_GETOWN_EX	16
 #endif
 
+#ifndef F_GETOWNER_UIDS
+#define F_GETOWNER_UIDS	17
+#endif
+
 #define F_OWNER_TID	0
 #define F_OWNER_PID	1
 #define F_OWNER_PGRP	2
@@ -143,11 +147,6 @@ struct f_owner_ex {
 #ifndef F_EXLCK
 #define F_EXLCK		4	/* or 3 */
 #define F_SHLCK		8	/* or 4 */
-#endif
-
-/* for leases */
-#ifndef F_INPROGRESS
-#define F_INPROGRESS	16
 #endif
 
 /* operations for bsd flock(), also used by the kernel implementation */

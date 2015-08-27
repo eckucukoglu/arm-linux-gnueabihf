@@ -38,11 +38,6 @@ struct in6_addr {
 #define s6_addr32		in6_u.u6_addr32
 };
 
-/* IPv6 Wildcard Address (::) and Loopback Address (::1) defined in RFC2553
- * NOTE: Be aware the IN6ADDR_* constants and in6addr_* externals are defined
- * in network byte order, not in host byte order as are the IPv4 equivalents
- */
-
 struct sockaddr_in6 {
 	unsigned short int	sin6_family;    /* AF_INET6 */
 	__be16			sin6_port;      /* Transport layer port # */
@@ -130,7 +125,7 @@ struct in6_flowlabel_req {
 /*
  *	IPv6 TLV options.
  */
-#define IPV6_TLV_PAD0		0
+#define IPV6_TLV_PAD1		0
 #define IPV6_TLV_PADN		1
 #define IPV6_TLV_ROUTERALERT	5
 #define IPV6_TLV_JUMBO		194
@@ -240,6 +235,7 @@ struct in6_flowlabel_req {
  *
  * IP6T_SO_GET_REVISION_MATCH	68
  * IP6T_SO_GET_REVISION_TARGET	69
+ * IP6T_SO_ORIGINAL_DST		80
  */
 
 /* RFC5014: Source address selection */
@@ -259,20 +255,14 @@ struct in6_flowlabel_req {
 #define IPV6_ORIGDSTADDR        74
 #define IPV6_RECVORIGDSTADDR    IPV6_ORIGDSTADDR
 #define IPV6_TRANSPARENT        75
+#define IPV6_UNICAST_IF         76
 
 /*
  * Multicast Routing:
- * see include/linux/mroute6.h.
+ * see include/uapi/linux/mroute6.h.
  *
- * MRT6_INIT			200
- * MRT6_DONE			201
- * MRT6_ADD_MIF			202
- * MRT6_DEL_MIF			203
- * MRT6_ADD_MFC			204
- * MRT6_DEL_MFC			205
- * MRT6_VERSION			206
- * MRT6_ASSERT			207
- * MRT6_PIM			208
- * (reserved)			209
+ * MRT6_BASE			200
+ * ...
+ * MRT6_MAX
  */
-#endif
+#endif /* _LINUX_IN6_H */

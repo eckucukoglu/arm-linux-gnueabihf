@@ -379,4 +379,4 @@ struct floppy_raw_cmd {
 
 
 
-#endif
+#endif /* _LINUX_FD_H */

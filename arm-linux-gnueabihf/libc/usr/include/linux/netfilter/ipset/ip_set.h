@@ -1,6 +1,3 @@
-#ifndef _IP_SET_H
-#define _IP_SET_H
-
 /* Copyright (C) 2000-2002 Joakim Axelsson <gozem@linux.nu>
  *                         Patrick Schaaf <bof@bof.de>
  *                         Martin Josefsson <gandalf@wlug.westbo.se>
@@ -10,6 +7,11 @@
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
  */
+#ifndef _IP_SET_H
+#define _IP_SET_H
+
+
+#include <linux/types.h>
 
 /* The protocol version */
 #define IPSET_PROTOCOL		6
@@ -106,6 +108,8 @@ enum {
 	IPSET_ATTR_CIDR2,
 	IPSET_ATTR_IP2_TO,
 	IPSET_ATTR_IFACE,
+	IPSET_ATTR_BYTES,
+	IPSET_ATTR_PACKETS,
 	__IPSET_ATTR_ADT_MAX,
 };
 #define IPSET_ATTR_ADT_MAX	(__IPSET_ATTR_ADT_MAX - 1)
@@ -135,12 +139,13 @@ enum ipset_errno {
 	IPSET_ERR_REFERENCED,
 	IPSET_ERR_IPADDR_IPV4,
 	IPSET_ERR_IPADDR_IPV6,
+	IPSET_ERR_COUNTER,
 
 	/* Type specific error codes */
 	IPSET_ERR_TYPE_SPECIFIC = 4352,
 };
 
-/* Flags at command level */
+/* Flags at command level or match/target flags, lower half of cmdattrs*/
 enum ipset_cmd_flags {
 	IPSET_FLAG_BIT_EXIST	= 0,
 	IPSET_FLAG_EXIST	= (1 << IPSET_FLAG_BIT_EXIST),
@@ -148,14 +153,30 @@ enum ipset_cmd_flags {
 	IPSET_FLAG_LIST_SETNAME	= (1 << IPSET_FLAG_BIT_LIST_SETNAME),
 	IPSET_FLAG_BIT_LIST_HEADER = 2,
 	IPSET_FLAG_LIST_HEADER	= (1 << IPSET_FLAG_BIT_LIST_HEADER),
+	IPSET_FLAG_BIT_SKIP_COUNTER_UPDATE = 3,
+	IPSET_FLAG_SKIP_COUNTER_UPDATE =
+		(1 << IPSET_FLAG_BIT_SKIP_COUNTER_UPDATE),
+	IPSET_FLAG_BIT_SKIP_SUBCOUNTER_UPDATE = 4,
+	IPSET_FLAG_SKIP_SUBCOUNTER_UPDATE =
+		(1 << IPSET_FLAG_BIT_SKIP_SUBCOUNTER_UPDATE),
+	IPSET_FLAG_BIT_MATCH_COUNTERS = 5,
+	IPSET_FLAG_MATCH_COUNTERS = (1 << IPSET_FLAG_BIT_MATCH_COUNTERS),
+	IPSET_FLAG_BIT_RETURN_NOMATCH = 7,
+	IPSET_FLAG_RETURN_NOMATCH = (1 << IPSET_FLAG_BIT_RETURN_NOMATCH),
+	IPSET_FLAG_CMD_MAX = 15,
 };
 
-/* Flags at CADT attribute level */
+/* Flags at CADT attribute level, upper half of cmdattrs */
 enum ipset_cadt_flags {
 	IPSET_FLAG_BIT_BEFORE	= 0,
 	IPSET_FLAG_BEFORE	= (1 << IPSET_FLAG_BIT_BEFORE),
 	IPSET_FLAG_BIT_PHYSDEV	= 1,
 	IPSET_FLAG_PHYSDEV	= (1 << IPSET_FLAG_BIT_PHYSDEV),
+	IPSET_FLAG_BIT_NOMATCH	= 2,
+	IPSET_FLAG_NOMATCH	= (1 << IPSET_FLAG_BIT_NOMATCH),
+	IPSET_FLAG_BIT_WITH_COUNTERS = 3,
+	IPSET_FLAG_WITH_COUNTERS = (1 << IPSET_FLAG_BIT_WITH_COUNTERS),
+	IPSET_FLAG_CADT_MAX	= 15,
 };
 
 /* Commands with settype-specific attributes */
@@ -168,5 +189,71 @@ enum ipset_adt {
 	IPSET_CADT_MAX,
 };
 
+/* Sets are identified by an index in kernel space. Tweak with ip_set_id_t
+ * and IPSET_INVALID_ID if you want to increase the max number of sets.
+ */
+typedef __u16 ip_set_id_t;
 
-#endif /*_IP_SET_H */
+#define IPSET_INVALID_ID		65535
+
+enum ip_set_dim {
+	IPSET_DIM_ZERO = 0,
+	IPSET_DIM_ONE,
+	IPSET_DIM_TWO,
+	IPSET_DIM_THREE,
+	/* Max dimension in elements.
+	 * If changed, new revision of iptables match/target is required.
+	 */
+	IPSET_DIM_MAX = 6,
+	/* Backward compatibility: set match revision 2 */
+	IPSET_BIT_RETURN_NOMATCH = 7,
+};
+
+/* Option flags for kernel operations */
+enum ip_set_kopt {
+	IPSET_INV_MATCH = (1 << IPSET_DIM_ZERO),
+	IPSET_DIM_ONE_SRC = (1 << IPSET_DIM_ONE),
+	IPSET_DIM_TWO_SRC = (1 << IPSET_DIM_TWO),
+	IPSET_DIM_THREE_SRC = (1 << IPSET_DIM_THREE),
+	IPSET_RETURN_NOMATCH = (1 << IPSET_BIT_RETURN_NOMATCH),
+};
+
+enum {
+	IPSET_COUNTER_NONE = 0,
+	IPSET_COUNTER_EQ,
+	IPSET_COUNTER_NE,
+	IPSET_COUNTER_LT,
+	IPSET_COUNTER_GT,
+};
+
+struct ip_set_counter_match {
+	__u8 op;
+	__u64 value;
+};
+
+/* Interface to iptables/ip6tables */
+
+#define SO_IP_SET		83
+
+union ip_set_name_index {
+	char name[IPSET_MAXNAMELEN];
+	ip_set_id_t index;
+};
+
+#define IP_SET_OP_GET_BYNAME	0x00000006	/* Get set index by name */
+struct ip_set_req_get_set {
+	unsigned int op;
+	unsigned int version;
+	union ip_set_name_index set;
+};
+
+#define IP_SET_OP_GET_BYINDEX	0x00000007	/* Get set name by index */
+/* Uses ip_set_req_get_set */
+
+#define IP_SET_OP_VERSION	0x00000100	/* Ask kernel version */
+struct ip_set_req_version {
+	unsigned int op;
+	unsigned int version;
+};
+
+#endif /* _IP_SET_H */

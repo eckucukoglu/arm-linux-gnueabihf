@@ -69,6 +69,10 @@
 #define NFS4_CDFC4_FORE_OR_BOTH 0x3
 #define NFS4_CDFC4_BACK_OR_BOTH 0x7
 
+#define NFS4_CDFS4_FORE 0x1
+#define NFS4_CDFS4_BACK 0x2
+#define NFS4_CDFS4_BOTH 0x3
+
 #define NFS4_SET_TO_SERVER_TIME	0
 #define NFS4_SET_TO_CLIENT_TIME	1
 
@@ -165,7 +169,7 @@ enum nfs4_acl_whotype {
 	NFS4_ACL_WHO_EVERYONE,
 };
 
-#endif
+#endif /* _LINUX_NFS4_H */
 
 /*
  * Local variables:

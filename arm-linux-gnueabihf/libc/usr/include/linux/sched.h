@@ -43,4 +43,4 @@
 #define SCHED_RESET_ON_FORK     0x40000000
 
 
-#endif
+#endif /* _LINUX_SCHED_H */

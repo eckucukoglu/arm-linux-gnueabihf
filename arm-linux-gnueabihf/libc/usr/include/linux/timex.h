@@ -161,4 +161,4 @@ struct timex {
 #define TIME_BAD	TIME_ERROR /* bw compat */
 
 
-#endif /* LINUX_TIMEX_H */
+#endif /* _LINUX_TIMEX_H */

@@ -133,4 +133,4 @@ struct ip_beet_phdr {
 	__u8 reserved;
 };
 
-#endif	/* _LINUX_IP_H */
+#endif /* _LINUX_IP_H */

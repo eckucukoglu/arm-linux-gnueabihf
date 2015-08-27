@@ -59,4 +59,4 @@ struct ebt_802_3_info {
 	__u8  invflags;
 };
 
-#endif
+#endif /* __LINUX_BRIDGE_EBT_802_3_H */

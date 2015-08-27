@@ -1,20 +1,18 @@
 /*
  * linux/can/error.h
  *
- * Definitions of the CAN error frame to be filtered and passed to the user.
+ * Definitions of the CAN error messages to be filtered and passed to the user.
  *
  * Author: Oliver Hartkopp <oliver.hartkopp@volkswagen.de>
  * Copyright (c) 2002-2007 Volkswagen Group Electronic Research
  * All rights reserved.
- *
- * Send feedback to <socketcan-users@lists.berlios.de>
  *
  */
 
 #ifndef CAN_ERROR_H
 #define CAN_ERROR_H
 
-#define CAN_ERR_DLC 8 /* dlc for error frames */
+#define CAN_ERR_DLC 8 /* dlc for error message frames */
 
 /* error class (mask) in can_id */
 #define CAN_ERR_TX_TIMEOUT   0x00000001U /* TX timeout (by netdevice driver) */

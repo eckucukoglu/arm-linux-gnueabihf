@@ -12,7 +12,7 @@
  * with a 10' pole.
  */
 #ifndef __statfs_word
-#if BITS_PER_LONG == 64
+#if __BITS_PER_LONG == 64
 #define __statfs_word long
 #else
 #define __statfs_word __u32
@@ -80,4 +80,4 @@ struct compat_statfs64 {
 	__u32 f_spare[4];
 } ARCH_PACK_COMPAT_STATFS64;
 
-#endif
+#endif /* _GENERIC_STATFS_H */

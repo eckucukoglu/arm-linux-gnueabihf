@@ -77,4 +77,4 @@ struct rlimit64 {
 #include <asm/resource.h>
 
 
-#endif
+#endif /* _LINUX_RESOURCE_H */

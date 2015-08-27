@@ -1,5 +1,5 @@
 #ifndef __LINUX_FUNCTIONFS_H__
-#define __LINUX_FUNCTIONFS_H__ 1
+#define __LINUX_FUNCTIONFS_H__
 
 
 #include <linux/types.h>
@@ -164,4 +164,4 @@ struct usb_functionfs_event {
 
 
 
-#endif
+#endif /* __LINUX_FUNCTIONFS_H__ */
